@@ -1,5 +1,6 @@
 #! /bin/bash
 
+gitdir=$(pwd)
 sudo mkdir -p /usr/local/sbin/base/traefik
 cd /usr/local/sbin/base
 sudo touch ./traefik/traefik.yml
@@ -8,13 +9,13 @@ docker network create traefiknet
 sudo mkdir -p /usr/local/sbin/base/portainer/data
 sudo chown -R 9000:9000 /usr/local/sbin/base/portainer
 
-sudo cp ~/base/docker-compose.yml ./
+sudo cp $gitdir/docker-compose.yml ./
 echo "Root domain: "
 read domain
 export domain
 envsubst < ./docker-compose.yml | sudo tee "./docker-compose.yml"
 
-sudo cp ~/base/traefik_api.yml ./traefik/traefik_api.yml
+sudo cp $gitdir/traefik_api.yml ./traefik/traefik_api.yml
 echo "Traefik username: "
 read username
 export username
@@ -27,8 +28,7 @@ envsubst < ./traefik/traefik_api.yml | sudo tee "./traefik/traefik_api.yml"
 echo "Email for TLS: "
 read email
 export email
-sudo cp ~/base/traefik.yml ./traefik/traefik.yml
+sudo cp $gitdir/traefik.yml ./traefik/traefik.yml
 envsubst < ./traefik/traefik.yml | sudo tee "./traefik/traefik.yml"
 
 docker compose -p "base" up -d
-
