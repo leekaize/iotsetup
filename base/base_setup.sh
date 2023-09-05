@@ -31,4 +31,5 @@ export email
 sudo cp $gitdir/traefik.yml ./traefik/traefik.yml
 envsubst < ./traefik/traefik.yml | sudo tee "./traefik/traefik.yml"
 
-docker compose -p "base" up -d
+docker compose up -d
+
