@@ -9,7 +9,9 @@ The scripts are assuming basic setups on the server has already been done and a 
 echo "Enter Timezone (e.g. Asia/Kuching): "
 read timezone
 timedatectl set-timezone $timezone
+date
 apt update && apt upgrade -y
+apt install git -y
 
 echo "Enter Username"
 read username
