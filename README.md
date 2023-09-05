@@ -6,7 +6,9 @@ The scripts are assuming basic setups on the server has already been done and a 
 ```bash
 #! /bin/bash
 
-timedatectl set-timezone Asia/Kuching
+echo "Enter Timezone (e.g. Asia/Kuching): "
+read timezone
+timedatectl set-timezone $timezone
 apt update && apt upgrade -y
 
 echo "Enter Username"
