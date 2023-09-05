@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+  traefik:
+    container_name: traefik
+    restart: unless-stopped
+    image: traefik:latest
+    networks:
+      - traefiknet
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik/traefik.yml:/traefik.yml
+      - ./traefik/traefik_api.yml:/traefik_api.yml
+      - ./traefik/acme.json:/cert/acme.json
+
+  portainer:
+    container_name: portainer
+    image: portainer/portainer-ce:latest
+    restart: always
+    ports:
+      - "9000:9000"
+      - "9443:9443"
+    networks:
+      - traefiknet
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/local/sbin/base/portainer/data:/data
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.portainer.rule=Host(`portainer.$domain`)
+      - traefik.http.routers.portainer.tls=true
+      - traefik.http.routers.portainer.tls.certresolver=lets-encrypt
+      - traefik.http.services.portainer.loadbalancer.server.port=9000
+
+networks:
+  traefiknet:
+    external: true
+
