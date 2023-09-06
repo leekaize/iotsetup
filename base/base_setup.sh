@@ -1,20 +1,20 @@
 #! /bin/bash
 
 gitdir=$(pwd)
+basedir="/usr/local/sbin/base"
 sudo mkdir -p /usr/local/sbin/base/traefik
-cd /usr/local/sbin/base
-sudo touch ./traefik/traefik.yml
-sudo touch ./traefik/traefik_api.yml
+sudo touch $basedir/traefik/traefik.yml
+sudo touch $basedir/traefik/traefik_api.yml
 docker network create traefiknet
 sudo mkdir -p /usr/local/sbin/base/portainer/data
 sudo chown -R 9000:9000 /usr/local/sbin/base/portainer
 
-sudo cp $gitdir/docker-compose.yml ./
+sudo cp $gitdir/docker-compose.yml $basedir/docker-compose.yml
 read -p "Enter domain name (e.g. mywebsite.com): " domain
 export domain
-envsubst < ./docker-compose.yml | sudo tee "./docker-compose.yml"
+envsubst < $gitdir/docker-compose.yml | sudo tee "$basedir/docker-compose.yml"
 
-sudo cp $gitdir/traefik_api.yml ./traefik/traefik_api.yml
+sudo cp $gitdir/traefik_api.yml $basedir/traefik/traefik_api.yml
 read -p "Set Traefik username: " username
 export username
 while true; do
@@ -27,12 +27,12 @@ while true; do
 done
 export password
 export secret=$(docker run --rm httpd htpasswd -nb $username $password)
-envsubst < ./traefik/traefik_api.yml | sudo tee "./traefik/traefik_api.yml"
+envsubst < $gitdir/traefik/traefik_api.yml | sudo tee "$basedir/traefik/traefik_api.yml"
 
 read -p "Set Email for TLS cert: " email
 export email
-sudo cp $gitdir/traefik.yml ./traefik/traefik.yml
-envsubst < ./traefik/traefik.yml | sudo tee "./traefik/traefik.yml"
+sudo cp $gitdir/traefik.yml $basedir/traefik/traefik.yml
+envsubst < $gitdir/traefik/traefik.yml | sudo tee "$basedir/traefik/traefik.yml"
 
 docker image rm httpd
 docker compose up -d
