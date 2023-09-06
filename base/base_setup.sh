@@ -14,7 +14,7 @@ read -p "Enter domain name (e.g. mywebsite.com): " domain
 export domain
 envsubst < $gitdir/docker-compose.yml | sudo tee "$basedir/docker-compose.yml"
 
-sudo cp $gitdir/traefik_api.yml $basedir/traefik/traefik_api.yml
+sudo cp $gitdir/traefik/traefik_api.yml $basedir/traefik/traefik_api.yml
 read -p "Set Traefik username: " username
 export username
 while true; do
@@ -31,7 +31,7 @@ envsubst < $gitdir/traefik/traefik_api.yml | sudo tee "$basedir/traefik/traefik_
 
 read -p "Set Email for TLS cert: " email
 export email
-sudo cp $gitdir/traefik.yml $basedir/traefik/traefik.yml
+sudo cp $gitdir/traefik/traefik.yml $basedir/traefik/traefik.yml
 envsubst < $gitdir/traefik/traefik.yml | sudo tee "$basedir/traefik/traefik.yml"
 
 docker image rm httpd
