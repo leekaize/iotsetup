@@ -35,5 +35,6 @@ sudo cp $gitdir/traefik/traefik.yml $basedir/traefik/traefik.yml
 envsubst < $gitdir/traefik/traefik.yml | sudo tee "$basedir/traefik/traefik.yml"
 
 docker image rm httpd
+cd $basedir
 docker compose up -d
 
