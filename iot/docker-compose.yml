@@ -1,0 +1,28 @@
+version: "3"
+name: iot
+
+services:
+  mosquitto:
+    container_name: mosquitto
+    image: eclipse-mosquitto:latest
+    restart: always
+    ports:
+      - 1883:1883
+      - 8883:8883
+    networks:
+      - traefiknet
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+    labels:
+      - traefik.enable=true
+      - traefik.tcp.routers.mosquitto.rule=Host(`mosquitto.$domain`)
+      - traefik.tcp.routers.mosquitto.tls=true
+      - traefik.tcp.routers.mosquitto.tls.certresolver=lets-encrypt
+      - traefik.tcp.services.mosquitto.loadbalancer.server.port=8883
+
+networks:
+  traefiknet:
+    external: true
+
