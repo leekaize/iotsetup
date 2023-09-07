@@ -1,6 +1,7 @@
 #! /bin/bash
 
-gitdir=$(pwd)
+# To obtain script location
+gitdir=$(dirname "$(readlink -f "$0")")
 basedir="/usr/local/sbin/base"
 sudo mkdir -p /usr/local/sbin/base/traefik
 sudo touch $basedir/traefik/traefik.yml
