@@ -12,4 +12,3 @@ envsubst < $gitdir/docker-compose.yml | sudo tee "$iotdir/docker-compose.yml"
 
 sudo cp $gitdir/mosquitto/config/mosquitto.conf $iotdir/mosquitto/config/mosquitto.conf
 
-
