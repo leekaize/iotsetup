@@ -3,19 +3,18 @@
 # To obtain script location
 gitdir=$(dirname "$(readlink -f "$0")")
 basedir="/usr/local/sbin/base"
-sudo mkdir -p /usr/local/sbin/base/traefik
-sudo touch $basedir/traefik/traefik.yml
-sudo touch $basedir/traefik/traefik_api.yml
-docker network create traefiknet
-sudo mkdir -p /usr/local/sbin/base/portainer/data
-sudo chown -R 9000:9000 /usr/local/sbin/base/portainer
 
-sudo cp $gitdir/docker-compose.yml $basedir/docker-compose.yml
+sudo mkdir -p $basedir/traefik
+sudo touch $basedir/traefik/traefik.yml $basedir/traefik/traefik_api.yml
+docker network create traefiknet
+
+sudo mkdir -p $basedir/portainer/data
+sudo chown -R 9000:9000 $basedir/portainer
+
 read -p "Enter domain name (e.g. mywebsite.com): " domain
 export domain
 envsubst < $gitdir/docker-compose.yml | sudo tee "$basedir/docker-compose.yml"
 
-sudo cp $gitdir/traefik/traefik_api.yml $basedir/traefik/traefik_api.yml
 read -p "Set Traefik username: " username
 export username
 while true; do
@@ -32,7 +31,6 @@ envsubst < $gitdir/traefik/traefik_api.yml | sudo tee "$basedir/traefik/traefik_
 
 read -p "Set Email for TLS cert: " email
 export email
-sudo cp $gitdir/traefik/traefik.yml $basedir/traefik/traefik.yml
 envsubst < $gitdir/traefik/traefik.yml | sudo tee "$basedir/traefik/traefik.yml"
 
 docker image rm httpd
