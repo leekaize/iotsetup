@@ -1,5 +1,5 @@
 entryPoints:
-  traefiknet:
+  web:
     address: ':80'
     http:
       redirections:
