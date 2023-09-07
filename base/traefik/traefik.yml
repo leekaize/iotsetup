@@ -8,6 +8,8 @@ entryPoints:
           scheme: https
   websecure:
     address: ':443'
+  mqtt:
+    address: ':8883'
 api:
   dashboard: true
 certificatesResolvers:
