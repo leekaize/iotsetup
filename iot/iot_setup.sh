@@ -28,5 +28,5 @@ done
 docker exec -it mosquitto mosquitto_passwd -c /mosquitto/config/passwordfile -b $username $password
 docker exec -it mosquitto chown root:root /mosquitto/config/passwordfile
 docker exec -it mosquitto chmod 600 /mosquitto/config/passwordfile
-docker-compose restart mosquitto
+docker compose restart mosquitto
 
