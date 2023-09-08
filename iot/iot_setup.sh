@@ -14,6 +14,7 @@ sudo cp $gitdir/mosquitto/config/mosquitto.conf $iotdir/mosquitto/config/mosquit
 echo "#" | sudo tee $iotdir/mosquitto/config/passwordfile
 sudo chown -R 8883:8883 $iotdir/mosquitto
 
+cd $iotdir
 docker compose up -d
 read -p "Set Mosquitto username: " username
 while true; do
