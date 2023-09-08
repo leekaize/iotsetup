@@ -17,9 +17,9 @@ services:
       - ./mosquitto/log:/mosquitto/log
     labels:
       - traefik.enable=true
-      - traefik.tcp.routers.mosquitto.rule=Host(`mosquitto.$domain`)
+      - traefik.tcp.routers.mosquitto.rule=HostSNI(`mosquitto.$domain`)
+      - traefik.tcp.routers.mosquitto.entrypoints=mqtt
       - traefik.tcp.routers.mosquitto.tls=true
-      - traefik.tcp.routers.mosquitto.tls.certresolver=lets-encrypt
       - traefik.tcp.services.mosquitto.loadbalancer.server.port=8883
 
 networks:
