@@ -10,5 +10,6 @@ if [[ $- =~ i ]] && [[ -z "$TMUX" ]] && [[ -n "$SSH_TTY" ]]; then
 fi
 
 EOL
+source .zshrc
 tmux new-session -s ssh_tmux
 
