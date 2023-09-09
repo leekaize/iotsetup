@@ -16,6 +16,7 @@ sudo chown -R 8883:8883 $iotdir/mosquitto
 
 cd $iotdir
 docker compose up -d
+
 read -p "Set Mosquitto username: " username
 while true; do
   read -p "Set Mosquitto password: " -s password
@@ -25,8 +26,9 @@ while true; do
   [ "$password" = "$password2" ] && break
   echo "Password not match, please try again."
 done
-
-docker exec -it mosquitto mosquitto_passwd -c /mosquitto/config/passwordfile -b $username $password
+export username
+export password
+docker exec -it mosquitto mosquitto_passwd -b -c /mosquitto/config/passwordfile $username $password
 docker exec -it mosquitto chown root:root /mosquitto/config/passwordfile
 docker exec -it mosquitto chmod 600 /mosquitto/config/passwordfile
 docker compose restart mosquitto
