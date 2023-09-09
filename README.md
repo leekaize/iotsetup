@@ -9,15 +9,13 @@ The scripts are assuming basic setups on the server has already been done and a 
 ```bash
 #! /bin/bash
 
-echo "Enter Timezone (e.g. Asia/Kuching): "
-read timezone
+read -p "Enter Timezone (e.g. Asia/Kuching): " timezone
 timedatectl set-timezone $timezone
 date
 apt update && apt upgrade -y
 apt install git -y
 
-echo "Enter Username"
-read username
+read -p "Enter Username" username
 useradd -m $username
 passwd $username
 usermod -aG sudo $username
@@ -35,22 +33,30 @@ Script following official Docker documentation is included (instead of using uno
 ## Microservices Stacks
 For migrating from old server, all the persistent volumes data should be migrated manually into `/usr/local/sbin` before running the scripts.
 
+### SSL/TLS
+Using Traefik as reversed proxy, all connections are TLS encrypted with Let's Encrypt (Renew every 90 days). Only Port 443 (HTTPS) and Port 8883 (TCP/MQTTS) are opened. For devices to publish messages, if the Let's Encrypt CA Certificate is not configured by default, the file ([isrgrootx1.pem](https://letsencrypt.org/certificates/)) can be manually given. The Let's Encrypt certificate can be used until year 2035.
+
+E.g.:
+```bash
+.\mosquitto_pub.exe -h <mqtt_url> --cafile D:\path\to\isrgrootx1.pem -p 8883 -t test -m "Hello World" -u <username> -P <password> -d
+```
+
 ### Base Stack
 1. **Traefik**: For reversed proxy and load balancing.
-2. **Portainer**: Manage Docker containers.
+1. **Portainer**: Manage Docker containers.
 
 The two can be installed through single docker-compose as `base` stack, where an external network: `traefiknet` is created to communicate with other microservices.
 
 ### IoT Stack
+1. **Eclipse Mosquitto**: MQTT Broker.
 1. **Node-RED**: Configure IoT connections and communications.
-2. **Ecplipse Mosquitto**: MQTT Broker.
-3. **InfluxDB**: Time-series Database.
-4. **Grafana**: Simple data monitoring.
+1. **InfluxDB**: Time-series Database.
+1. **Grafana**: Simple data monitoring.
 
 ### MariaDB Stack
 1. **MariaDB**: Relational database.
-2. **Adminer**: Minimal relational database management.
+1. **Adminer**: Minimal relational database management.
 
 ### Web Stack
 1. **NTFY**: For alerts and events notifications.
-2. **SvelteKit Website**: Fully customisable dashboard.
+1. **SvelteKit Website**: Fully customisable dashboard.
