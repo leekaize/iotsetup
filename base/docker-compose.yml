@@ -9,8 +9,9 @@ services:
     networks:
       - traefiknet
     ports:
-      - "80:80"
-      - "443:443"
+      - 80:80
+      - 443:443
+      - 8883:8883
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./traefik/traefik.yml:/traefik.yml
@@ -21,9 +22,8 @@ services:
     container_name: portainer
     image: portainer/portainer-ce:latest
     restart: always
-    ports:
-      - "9000:9000"
-      - "9443:9443"
+    expose:
+      - 9000
     networks:
       - traefiknet
     volumes:
