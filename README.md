@@ -15,7 +15,7 @@ date
 apt update && apt upgrade -y
 apt install git -y
 
-read -p "Enter Username" username
+read -p "Enter Username: " username
 useradd -m $username
 passwd $username
 usermod -aG sudo $username
