@@ -6,8 +6,8 @@ iotdir="/usr/local/sbin/iot"
 sudo mkdir -p $iotdir/mosquitto/config $iotdir/mosquitto/data $iotdir/mosquitto/log
 sudo chown -R 8883:8883 $iotdir/mosquitto
 
-read -p "Enter domain name (e.g. mywebsite.com): " domain
-export domain
+read -p "Enter Mosquitto domain name (e.g. mosquitto.mywebsite.com): " MOSQUITTO_DOMAIN
+export MOSQUITTO_DOMAIN
 envsubst < $gitdir/docker-compose.yml | sudo tee "$iotdir/docker-compose.yml"
 
 sudo cp $gitdir/mosquitto/config/mosquitto.conf $iotdir/mosquitto/config/mosquitto.conf
