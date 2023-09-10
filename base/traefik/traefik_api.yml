@@ -6,7 +6,7 @@ http:
           - '$secret'
   routers:
     api:
-      rule: Host(`traefik.$domain`)
+      rule: Host(`$TRAEFIK_DOMAIN`)
       entrypoints:
         - websecure
       middlewares:
