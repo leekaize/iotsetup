@@ -10,5 +10,7 @@ if [[ \$- =~ i ]] && [[ -z "\$TMUX" ]] && [[ -n "\$SSH_TTY" ]]; then
 fi
 
 EOL
+
+sleep 3
 tmux new-session -s ssh_tmux
 
