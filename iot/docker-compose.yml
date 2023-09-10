@@ -23,6 +23,25 @@ services:
       - traefik.tcp.routers.mosquitto.tls.certresolver=lets-encrypt
       - traefik.tcp.services.mosquitto.loadbalancer.server.port=8883
 
+  nodered:
+    container_name: nodered
+    image: nodered/node-red:latest
+    restart: always
+    environment:
+      - TZ=Asia/Kuching
+    expose:
+      - 1880
+    networks:
+      - traefiknet
+    volumes:
+      - ./nodered/data:/data
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.nodered.rule=Host(`$NODERED_DOMAIN`)
+      - traefik.http.routers.nodered.tls=true
+      - traefik.http.routers.nodered.tls.certresolver=lets-encrypt
+      - traefik.http.services.nodered.loadbalancer.server.port=1880
+
 networks:
   traefiknet:
     external: true

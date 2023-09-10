@@ -4,10 +4,14 @@ gitdir=$(dirname "$(readlink -f "$0")")
 iotdir="/usr/local/sbin/iot"
 
 sudo mkdir -p $iotdir/mosquitto/config $iotdir/mosquitto/data $iotdir/mosquitto/log
+sudo mkdir -p $iotdir/nodered/data
 sudo chown -R 8883:8883 $iotdir/mosquitto
+sudo chown -R 1000:1000 $iotdir/nodered
 
 read -p "Enter Mosquitto domain name (e.g. mosquitto.mywebsite.com): " MOSQUITTO_DOMAIN
 export MOSQUITTO_DOMAIN
+read -p "Enter Node-RED domain name (e.g. nodered.mywebsite.com): " NODERED_DOMAIN
+export NODERED_DOMAIN
 envsubst < $gitdir/docker-compose.yml | sudo tee "$iotdir/docker-compose.yml"
 
 sudo cp $gitdir/mosquitto/config/mosquitto.conf $iotdir/mosquitto/config/mosquitto.conf
