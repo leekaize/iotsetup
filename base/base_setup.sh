@@ -11,10 +11,12 @@ docker network create traefiknet
 sudo mkdir -p $basedir/portainer/data
 sudo chown -R 9000:9000 $basedir/portainer
 
-read -p "Enter domain name (e.g. mywebsite.com): " domain
-export domain
+read -p "Enter Portainer domain name (e.g. portainer.mywebsite.com): " PORTAINER_DOMAIN
+export PORTAINER_DOMAIN
 envsubst < $gitdir/docker-compose.yml | sudo tee "$basedir/docker-compose.yml"
 
+read -p "Enter Traefik domain name (e.g. traefik.mywebsite.com): " TRAEFIK_DOMAIN
+export TRAEFIK_DOMAIN
 read -p "Set Traefik username: " username
 export username
 while true; do
