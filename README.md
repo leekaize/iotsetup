@@ -1,34 +1,7 @@
 # Quick Deployment for IoT Microservices Stacks
-*Very novice on-going development repo, shell scripts has to be run one-by-one for now.*
+*On-going development repo, shell scripts has to be run one-by-one for now.*
 
-The scripts are to setup the IoT cloud server (Debian) from fresh install through VPS.
-Additional infrastructure setup can be done, for example: Cloudflare proxy, Wazuh SIEM.
-
-## Initial Setup
-The scripts are assuming basic setups on the server has already been done and a user with `sudo` privileges has been created. Example initial setup script:
-```bash
-#! /bin/bash
-
-read -p "Enter Timezone (e.g. Asia/Kuching): " timezone
-timedatectl set-timezone $timezone
-date
-apt update && apt upgrade -y
-apt install git -y
-
-read -p "Enter Username: " username
-useradd -m $username
-passwd $username
-usermod -aG sudo $username
-
-cp -r /root/.ssh /home/$username/
-chown -hR $username:$username /home/$username/.ssh
-```
-
-### Optional Terminal Setup
-The **tmux** and **zsh** installation script is included.
-
-### Docker Installation
-Script following official Docker documentation is included (instead of using unofficial pakages of *docker.io* and *docker-compose*).
+The scripts are to setup IoT cloud server (Ubuntu) from fresh install through VPS, assuming basic setups on the server has already been done and a user with `sudo` privileges is used.
 
 ## Microservices Stacks
 For migrating from old server, all the persistent volumes data should be migrated manually into `/usr/local/sbin` before running the scripts.
@@ -60,3 +33,8 @@ The two can be installed through single docker-compose as `base` stack, where an
 ### Web Stack
 1. **NTFY**: For alerts and events notifications.
 1. **SvelteKit Website**: Fully customisable dashboard.
+
+### Remarks
+Additional infrastructure setup should be done, for example: Cloudflare proxy, Wazuh SIEM.
+
+
